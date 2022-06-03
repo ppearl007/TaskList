@@ -1,0 +1,139 @@
+<html>
+    <head>  
+        <title> name Tasklist App</title>
+    </head>
+    <body>
+        <input id="todo-title" type="text" />
+        <input id="date" type="date" />
+        <button onclick="addTodos()"> add Task</button>
+        <div id="todo-list"></div>
+        <div id="todo-list"></div>
+        <script> 
+            // three ways to loop. either make a list, use forEach or use object
+            // let todos = {
+            //     name: 'Pelu',
+            //     todo1: 'Get groceries',
+            //     todo2: 'Wash car',
+            //     todo3: 'clean house'
+            // }
+
+            // let todosArr = ['Get groceries', 'Wash car', 'clean house']
+
+            // Model
+
+            let todos = [{
+                title: 'Get groceries', 
+                date: '03.02.2019',
+                id: 'id1'
+                }, {
+                title: 'Wash car', 
+                date: '03.02.2020',
+                id: 'id2'
+                }, {
+                title: 'clean house', 
+                date: '03.02.2021',
+                id: 'id3'
+                }]
+
+            // function addTodolist() {
+            //     for (let todo in todosL) {
+            //         let element = document.createElement('div');
+            //         element.innerText = todosL[todo]
+            //         document.body.appendChild(element)
+            //     }
+            // }
+            // addTodolist();
+
+            render();
+
+            // create todo
+            function createTodo(title, date){
+                
+                let id = '' + new Date().getTime()
+
+                todos.push({                    
+                    title: title, 
+                    date: date,
+                    id: id
+                    })                
+            }
+
+
+            // Controller    
+            //update or add to the list
+
+            function addTodos(){
+                let textbox = document.getElementById('todo-title')
+                let datePicker = document.getElementById('date')
+                
+                let title = textbox.value
+                let dueDate = datePicker.value
+
+                createTodo(title, dueDate);
+                
+                render();
+            }
+
+            // remove a todo 
+            function removeTodo(idToDelete){
+                todos = todos.filter(function(todo){
+                    //if id of this todo matches idToDelete, return false
+                    if (todo.id === idToDelete){
+                        return false
+                    } 
+                    return true                       
+                })         
+
+            }
+            function deleteTodo(event) {
+                // get the value of the button that was clicked under event attributes
+
+                const deleteButton = event.target
+                const idToDelete = deleteButton.id     
+
+                removeTodo(idToDelete)
+                
+                render()   
+            }
+            
+
+            // View
+            
+            function render(){
+                //reset list every time
+                document.getElementById('todo-list').innerHTML='';
+
+                todos.forEach(function(todo) {
+                    let element = document.createElement('div');
+                    element.innerText = todo.title + ' ' + todo.date 
+                    let todoList = document.getElementById('todo-list')
+                    let dueDate = document.getElementById('date')
+                    
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerText = 'Delete'
+                    deleteButton.style = 'margin-left: 12px'
+                    deleteButton.onclick = deleteTodo;
+                    deleteButton.id = todo.id;
+                    element.appendChild(deleteButton)
+
+                    document.getElementById('todo-list')
+                    todoList.appendChild(element)
+                })  
+            }
+            
+            // function addTodoObj() {
+            //     for (let key in todosO) {
+            //         let element = document.createElement('div');
+            //         element.innerText = todosO[key]
+            //         document.body.appendChild(element)
+            //     }
+            // }
+
+            // addTodoObj();
+
+            
+
+        </script>
+    </body>
+</html>
+
